@@ -29,7 +29,14 @@ exports.addSchool = (req, res) => {
             }
 
             res.status(201).json({
-                message: "School added successfully"
+                message: "School added successfully",
+                school: {
+                    id: result.insertId,
+                    name,
+                    address,
+                    latitude,
+                    longitude
+                }
             });
 
         }
