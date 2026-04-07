@@ -6,11 +6,12 @@ const {
     addSchool,
     listSchools
 } = require("../controllers/schoolControllers");
+const { validateSchool, validateCoordinates } = require("../middleware/validation");
 
 
-router.post("/addSchool", addSchool);
+router.post("/addSchool", validateSchool, addSchool);
 
-router.get("/listSchools", listSchools);
+router.get("/listSchools", validateCoordinates, listSchools);
 
 
 module.exports = router;

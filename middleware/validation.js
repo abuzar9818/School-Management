@@ -35,4 +35,26 @@ function validateSchool(req, res, next) {
     next();
 }
 
-module.exports = validateSchool;
+function validateCoordinates(req, res, next) {
+
+    const { latitude, longitude } = req.query;
+
+    if (!latitude || !longitude) {
+        return res.status(400).json({
+            message: "Latitude and longitude required"
+        });
+    }
+
+    if (isNaN(latitude) || isNaN(longitude)) {
+        return res.status(400).json({
+            message: "Coordinates must be numbers"
+        });
+    }
+
+    next();
+}
+
+module.exports = {
+    validateSchool,
+    validateCoordinates
+};
