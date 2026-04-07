@@ -1,6 +1,7 @@
 function validateSchool(req, res, next) {
 
-    const { name, address, latitude, longitude } = req.body;
+    // Fallback if req.body is undefined (e.g. forgot Content-Type header)
+    const { name, address, latitude, longitude } = req.body || {};
 
     if (!name || !address || latitude === undefined || longitude === undefined) {
         return res.status(400).json({
