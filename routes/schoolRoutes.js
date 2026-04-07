@@ -10,6 +10,9 @@ const { validateSchool, validateCoordinates } = require("../middleware/validatio
 
 
 router.post("/addSchool", validateSchool, addSchool);
+router.get("/addSchool", (req, res) => {
+  res.send("Use POST method to add a school.");
+});
 
 router.get("/listSchools", validateCoordinates, listSchools);
 
