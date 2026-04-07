@@ -1,156 +1,200 @@
 # 🏫 School Management API
 
-[![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-v5.2-blue.svg)](https://expressjs.com/)
-[![MySQL](https://img.shields.io/badge/MySQL-v8.0+-blue.svg)](https://www.mysql.com/)
+A Node.js + Express.js + MySQL backend application that allows users to add schools and retrieve schools sorted by proximity to a given location.
 
-A powerful and lightweight backend API for managing schools. It allows administrators to securely add new schools and lets users seamlessly fetch a list of schools ranked and sorted by proximity to their current geographical location using spatial distance calculations.
-
-## ✨ Features
-
-- **Add New Schools**: Securely store school details including Name, Address, Latitude, and Longitude.
-- **Geographic Sorting**: Fetch schools dynamically sorted by their real-world distance from a user's specified coordinates.
-- **Input Validation**: Custom middleware to ensure data integrity and catch missing or incorrect HTTP payloads.
-- **Secure Configuration**: Robust handling of secure credentials via environment variables.
-
-## 🛠️ Tech Stack
-
-- **Runtime**: [Node.js](https://nodejs.org/)
-- **Framework**: [Express.js](https://expressjs.com/)
-- **Database**: [MySQL](https://www.mysql.com/) (using `mysql2` driver)
-- **Utilities**: CORS, DotEnv, Nodemon
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Ensure you have the following installed on your local machine:
-- **Node.js** (v18 or higher)
-- **MySQL Server**
-
-### Installation
-
-1. **Clone the repository** (if applicable) or navigate to the project directory:
-   ```bash
-   cd School-Management
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Set up the Database**:
-   Create a MySQL database and table using the schema provided below.
-
-4. **Configure Environment Variables**:
-   Create a `.env` file in the root directory and add your MySQL credentials (see configuration below).
-
-5. **Start the development server**:
-   ```bash
-   npm run dev
-   ```
-   *The server will start on `http://localhost:5000`.*
+This project was built as part of a backend API assignment to demonstrate REST API development, database integration, validation middleware usage, and deployment.
 
 ---
 
-## 🔐 Environment Variables
+## 🚀 Live Deployment
 
-You need to set up the `.env` file in your root directory. Make sure to wrap your passwords in quotes to avoid syntax issues.
+**Base URL:**
+[https://school-management-production-292a.up.railway.app](https://school-management-production-292a.up.railway.app)
 
-```env
-DB_HOST=127.0.0.1
-DB_USER=root
-DB_PASSWORD="your_password_here"
-DB_NAME=schoolDB
-PORT=5000
+**Example working endpoint:**
+GET Schools by location:
+[https://school-management-production-292a.up.railway.app/api/listSchools?latitude=25.9716&longitude=80.4](https://school-management-production-292a.up.railway.app/api/listSchools?latitude=25.9716&longitude=80.4)
+
+---
+
+## 📌 Features
+
+- Add a new school
+- Fetch schools sorted by distance from user location
+- MySQL database integration
+- Input validation middleware
+- Distance calculation using Haversine Formula
+- Production deployment using Railway
+- Postman collection included
+
+---
+
+## 🛠 Tech Stack
+
+- **Node.js**
+- **Express.js**
+- **MySQL**
+- **Railway** (Deployment)
+- **Postman** (API testing)
+
+---
+
+## 📂 Project Structure
+
+```text
+school-management-api/
+│
+├── config/
+│   └── db.js
+│
+├── controllers/
+│   └── schoolController.js
+│
+├── routes/
+│   └── schoolRoutes.js
+│
+├── middlewares/
+│   └── validation.js
+│
+├── utils/
+│   └── distance.js
+│
+├── .env
+├── server.js
+└── package.json
 ```
 
 ---
 
 ## 📡 API Endpoints
 
-### 1. Add a School
-Registers a new school in the database.
+### 1️⃣ Add School
 
-- **URL:** `/api/addSchool`
-- **Method:** `POST`
-- **Content-Type:** `application/json`
+**Endpoint:**
+`POST /api/addSchool`
 
-**Request Body:**
+**Example Request Body:**
 ```json
 {
-  "name": "Springfield High",
-  "address": "123 Main St, Springfield",
-  "latitude": 40.7128,
-  "longitude": -74.0060
+  "name": "ABC School",
+  "address": "Lucknow",
+  "latitude": 26.8467,
+  "longitude": 80.9462
 }
 ```
 
-**Success Response (201 Created):**
+**Example Response:**
 ```json
 {
-  "message": "School added successfully",
-  "school": {
-    "id": 1,
-    "name": "Springfield High",
-    "address": "123 Main St, Springfield",
-    "latitude": 40.7128,
-    "longitude": -74.0060
-  }
+  "message": "School added successfully"
 }
 ```
 
 ---
 
-### 2. List Schools by Proximity
-Fetches all schools, sorted by distance from the provided user coordinates.
+### 2️⃣ List Schools (Sorted by Distance)
 
-- **URL:** `/api/listSchools`
-- **Method:** `GET`
-- **Query Parameters:**
-  - `latitude` (float) - The user's current latitude
-  - `longitude` (float) - The user's current longitude
+**Endpoint:**
+`GET /api/listSchools`
 
 **Example Request:**
-```
-GET /api/listSchools?latitude=40.7100&longitude=-74.0000
-```
+`/api/listSchools?latitude=25.9716&longitude=80.4`
 
-**Success Response (200 OK):**
+**Example Response:**
 ```json
 [
   {
     "id": 1,
-    "name": "Springfield High",
-    "address": "123 Main St, Springfield",
-    "latitude": 40.7128,
-    "longitude": -74.0060,
-    "distance": 0.598
+    "name": "Test School",
+    "address": "Delhi",
+    "latitude": 28.7041,
+    "longitude": 77.1025,
+    "distance": 82.01
   }
 ]
 ```
 
 ---
 
-## 🗄️ Database Schema
+## 📍 Distance Calculation Logic
 
-Execute the following SQL command in your MySQL environment to prepare the database structure:
+Schools are sorted using the **Haversine Formula** to calculate the distance between user coordinates and school coordinates.
+This ensures accurate proximity-based sorting.
 
+---
+
+## ⚙️ Installation (Run Locally)
+
+**Clone repository:**
+```bash
+git clone https://github.com/YOUR_USERNAME/school-management-api.git
+```
+
+**Move into project folder:**
+```bash
+cd school-management-api
+```
+
+**Install dependencies:**
+```bash
+npm install
+```
+
+**Create `.env` file:**
+```env
+DB_HOST=your_host
+DB_USER=your_user
+DB_PASSWORD=your_password
+DB_NAME=your_database
+DB_PORT=your_port
+PORT=5000
+NODE_ENV=development
+```
+
+**Run server:**
+```bash
+npm run dev
+```
+
+---
+
+## 🗄 Database Schema
+
+**Table:** `schools`
 ```sql
-CREATE DATABASE IF NOT EXISTS schoolDB;
-
-USE schoolDB;
-
-CREATE TABLE IF NOT EXISTS schools (
+CREATE TABLE schools (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
-    latitude FLOAT NOT NULL,
-    longitude FLOAT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    latitude DECIMAL(10,8) NOT NULL,
+    longitude DECIMAL(11,8) NOT NULL
 );
 ```
 
 ---
-*Developed with Abuzar Ahmad*
+
+## 📬 Postman Collection
+
+**Postman collection link:**
+[https://drive.google.com/file/d/1FIum3kkoFye88KK65LAMtUc5M08gvbse/view?usp=sharing](https://drive.google.com/file/d/1FIum3kkoFye88KK65LAMtUc5M08gvbse/view?usp=sharing)
+
+**Includes:**
+- Add School API
+- List Schools API
+
+---
+
+## 🌐 Deployment
+
+**Backend deployed on:** Railway
+
+**Live URL:**
+[https://school-management-production-292a.up.railway.app](https://school-management-production-292a.up.railway.app)
+
+---
+
+## 👨‍💻 Author
+
+**Abuzar Ahmad**  
+
+*Role*: MERN Stack Developer
