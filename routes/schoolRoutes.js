@@ -5,7 +5,7 @@ const router = express.Router();
 const {
     addSchool,
     listSchools
-} = require("../controllers/schoolController");
+} = require("../controllers/schoolControllers");
 
 
 router.post("/addSchool", addSchool);
